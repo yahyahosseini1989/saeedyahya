@@ -1,8 +1,13 @@
 
+import Layout from './../components/layout/layout';
+
+
 const IndexPage = () => (
   <>
-    this.is main page
+    <Layout>
+      this.is main page
+    </Layout>
   </>
 )
 
-export default IndexPage
+export default IndexPage;
