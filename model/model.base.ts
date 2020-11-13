@@ -1,4 +1,4 @@
 export interface baseModel {
-    id: string;
+    _id: string;
     creation_date: string;
 }

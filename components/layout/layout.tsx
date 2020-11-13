@@ -15,7 +15,7 @@ const Layout: React.FunctionComponent<IProps> = (props) => {
                     <hr/>
                 </div>
             </header>
-            <div className="container">
+            <div className="container-fluid">
                 {props.children}
             </div>
             <footer>

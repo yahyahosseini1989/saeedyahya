@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from 'yup';
 import Layout from "../../components/layout/layout";
 import { SPersonService } from "../../service/service.person";
-
+import { History } from "history";
 
 export interface CreateUserProps {
-
+    history: History;
 }
 
-const CreateUser: React.FunctionComponent<CreateUserProps> = () => {
-    const [newUser, setnewUser] = useState([{
-        first_name: "",
-        last_name: "",
-        phone_number: "",
-        email: "",
-        height: "",
-        weight: "",
-        color_of_body: "",
-        color_of_hair: "",
-    }]);
+const CreateUser: React.FunctionComponent<CreateUserProps> = (props) => {
 
+    const _PersonUsers = new SPersonService();
     const initialValueOfForm = {
         first_name: "",
         last_name: "",
@@ -36,19 +26,13 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = () => {
         last_name: Yup.string().required('Required'),
         email: Yup.string().required('Required'),
     })
-    const SubmitForm = (e: any) => {
-        setnewUser(e);
+
+    const SubmitForm = async (value: any) => {
+        await _PersonUsers.create(value);
+        props.history.push("/users/users")
     }
 
 
-    // const _PersonUsers = new SPersonService();
-    // const createUser = async () => {
-    //     let res = await _PersonUsers.create(SubmitForm());
-    // }
-
-    // useEffect(() => {
-        
-    // },[])
 
 
     return (
@@ -66,100 +50,115 @@ const CreateUser: React.FunctionComponent<CreateUserProps> = () => {
                         >
                             {({ handleSubmit, handleChange, handleBlur, errors, touched }) => (
                                 <>
-                                    <input
-                                        className={"form-control mt-2"}
-                                        type="text"
-                                        name={"first_name"}
-                                        placeholder={"First Name"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        id=""
-                                    />
-                                    <small className="form-text text-danger">
-                                        {errors.first_name && touched.first_name && errors.first_name}
-                                    </small>
-                                    <input
-                                        className={"form-control mt-2"}
-                                        type="text"
-                                        name={"last_name"}
-                                        placeholder={"LastName"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        id=""
-                                    />
-                                    <small className="form-text text-danger">
-                                        {errors.last_name && touched.last_name && errors.last_name}
-                                    </small>
-                                    <input
-                                        className={"form-control mt-2"}
-                                        type="text"
-                                        name={"phone_number"}
-                                        placeholder={"Phone Number"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        id=""
-                                    />
-                                    <small className="form-text text-danger">
-                                        {errors.phone_number && touched.phone_number && errors.phone_number}
-                                    </small>
-                                    <input
-                                        className={"form-control mt-2"}
-                                        type="email"
-                                        name={"email"}
-                                        placeholder={"Email"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        id=""
-                                    />
-                                    <small className="form-text text-danger">
-                                        {errors.email && touched.email && errors.email}
-                                    </small>
-                                    <input
-                                        className={"form-control mt-2"}
-                                        type="text"
-                                        name={"height"}
-                                        placeholder={"height"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        id=""
-                                    />
-                                    <input
-                                        className={"form-control mt-2"}
-                                        type="text"
-                                        name={"weight"}
-                                        placeholder={"weight"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        id=""
-                                    />
-                                    <input
-                                        className={"form-control mt-2"}
-                                        type="text"
-                                        name={"color_of_body"}
-                                        placeholder={"Color of Body"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        id=""
-                                    />
-                                    <input
-                                        className={"form-control mt-2"}
-                                        type="text"
-                                        name={"color_of_hair"}
-                                        placeholder={"Color of Hair"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        id=""
-                                    />
-                                    <input
-                                        className={"form-control mt-2"}
-                                        type="text"
-                                        name={"height"}
-                                        placeholder={"height"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        id=""
-                                    />
-                                    <br />
+                                    <div className="form-group">
+                                        <label htmlFor="first_name">First Name</label>
+                                        <input
+                                            className={"form-control"}
+                                            type="text"
+                                            name={"first_name"}
+                                            placeholder={"First Name"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            id="first_name"
+                                        />
+                                        <small className="form-text text-danger">
+                                            {errors.first_name && touched.first_name && errors.first_name}
+                                        </small>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="last_name">Last Name</label>
+                                        <input
+                                            className={"form-control"}
+                                            type="text"
+                                            name={"last_name"}
+                                            placeholder={"Last Name"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            id="last_name"
+                                        />
+                                        <small className="form-text text-danger">
+                                            {errors.last_name && touched.last_name && errors.last_name}
+                                        </small>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="phone_number">Phone Number</label>
+                                        <input
+                                            className={"form-control"}
+                                            type="text"
+                                            name={"phone_number"}
+                                            placeholder={"Phone Number ( example: 09101411368 )"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            id="phone_number"
+                                        />
+                                        <small className="form-text text-danger">
+                                            {errors.phone_number && touched.phone_number && errors.phone_number}
+                                        </small>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="email">Email</label>
+                                        <input
+                                            className={"form-control"}
+                                            type="email"
+                                            name={"email"}
+                                            placeholder={"Email ( example@gmail.com )"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            id="email"
+                                        />
+                                        <small className="form-text text-danger">
+                                            {errors.email && touched.email && errors.email}
+                                        </small>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="height">Height</label>
+                                        <input
+                                            className={"form-control"}
+                                            type="text"
+                                            name={"height"}
+                                            placeholder={"Height ( cm )"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            id="height"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="weight">Weight</label>
+                                        <input
+                                            className={"form-control"}
+                                            type="text"
+                                            name={"weight"}
+                                            placeholder={"Weight ( kg )"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            id="weight"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="color_of_body">Color of Body</label>
+                                        <input
+                                            className={"form-control"}
+                                            type="text"
+                                            name={"color_of_body"}
+                                            placeholder={"Color of Body"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            id="color_of_body"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="color_of_hair">Color of Hair</label>
+                                        <input
+                                            className={"form-control"}
+                                            type="text"
+                                            name={"color_of_hair"}
+                                            placeholder={"Color of Hair"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            id="color_of_hair"
+                                        />
+                                    </div>
+                                    <hr />
                                     <button
                                         className={"btn btn-success"}
                                         onClick={() => handleSubmit()}
